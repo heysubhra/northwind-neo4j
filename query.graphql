@@ -1,0 +1,47 @@
+query Edges{
+  customers {
+    customerid
+    orders {
+      orderid
+    }
+  }
+  orders {
+    orderid
+    orderdetails {
+      orderdetailid
+      product {
+        productid
+      }
+    }
+  }
+  products {
+    productid
+    category {
+      categoryid
+    }
+  }
+}
+
+
+
+query Nodes {
+  customers {
+    customerid
+    customername
+  }
+  categories {
+    categoryid
+    categoryname
+  }
+  orders {
+    orderid
+    orderdate
+  }
+  products {
+    productid
+    productname
+  }
+}
+
+MHKYLJVThGJK8LqxCoPp
+770OpvZCGjqEIBb3bFkhKdnWg1uBxVKwaS75abwM

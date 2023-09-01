@@ -1,0 +1,272 @@
+{
+  "resource_version": 26,
+  "metadata": {
+    "version": 3,
+    "sources": [
+      {
+        "name": "northwind-postgres",
+        "kind": "postgres",
+        "tables": [
+          {
+            "table": {
+              "name": "categories",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "products",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "categoryid",
+                    "table": {
+                      "name": "products",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "customers",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "orders",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "customerid",
+                    "table": {
+                      "name": "orders",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "employees",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "orders",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "employeeid",
+                    "table": {
+                      "name": "orders",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "orderdetails",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "order",
+                "using": {
+                  "foreign_key_constraint_on": "orderid"
+                }
+              },
+              {
+                "name": "product",
+                "using": {
+                  "foreign_key_constraint_on": "productid"
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "orders",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "customer",
+                "using": {
+                  "foreign_key_constraint_on": "customerid"
+                }
+              },
+              {
+                "name": "employee",
+                "using": {
+                  "foreign_key_constraint_on": "employeeid"
+                }
+              },
+              {
+                "name": "shipper",
+                "using": {
+                  "foreign_key_constraint_on": "shipperid"
+                }
+              }
+            ],
+            "array_relationships": [
+              {
+                "name": "orderdetails",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "orderid",
+                    "table": {
+                      "name": "orderdetails",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "products",
+              "schema": "public"
+            },
+            "object_relationships": [
+              {
+                "name": "category",
+                "using": {
+                  "foreign_key_constraint_on": "categoryid"
+                }
+              },
+              {
+                "name": "supplier",
+                "using": {
+                  "foreign_key_constraint_on": "supplierid"
+                }
+              }
+            ],
+            "array_relationships": [
+              {
+                "name": "orderdetails",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "productid",
+                    "table": {
+                      "name": "orderdetails",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "shippers",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "orders",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "shipperid",
+                    "table": {
+                      "name": "orders",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "table": {
+              "name": "suppliers",
+              "schema": "public"
+            },
+            "array_relationships": [
+              {
+                "name": "products",
+                "using": {
+                  "foreign_key_constraint_on": {
+                    "column": "supplierid",
+                    "table": {
+                      "name": "products",
+                      "schema": "public"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "configuration": {
+          "connection_info": {
+            "database_url": {
+              "from_env": "PG_DATABASE_URL"
+            },
+            "isolation_level": "read-committed",
+            "use_prepared_statements": false
+          }
+        }
+      }
+    ],
+    "query_collections": [
+      {
+        "name": "allowed-queries",
+        "definition": {
+          "queries": [
+            {
+              "name": "Nodes",
+              "query": "query Nodes {\n  customers {\n    customerid\n    customername\n  }\n  categories {\n    categoryid\n    categoryname\n  }\n  orders {\n    orderid\n    orderdate\n  }\n  products {\n    productid\n    productname\n  }\n}"
+            },
+            {
+              "name": "Edges",
+              "query": "query Edges {\n  customers {\n    customerid\n    orders {\n      orderid\n    }\n  }\n  orders {\n    orderid\n    orderdetails {\n      orderdetailid\n      product {\n        productid\n      }\n    }\n  }\n  products {\n    productid\n    category {\n      categoryid\n    }\n  }\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "allowlist": [
+      {
+        "collection": "allowed-queries",
+        "scope": {
+          "global": true
+        }
+      }
+    ],
+    "rest_endpoints": [
+      {
+        "comment": "",
+        "definition": {
+          "query": {
+            "collection_name": "allowed-queries",
+            "query_name": "Edges"
+          }
+        },
+        "methods": [
+          "GET"
+        ],
+        "name": "Edges",
+        "url": "edges"
+      },
+      {
+        "comment": "",
+        "definition": {
+          "query": {
+            "collection_name": "allowed-queries",
+            "query_name": "Nodes"
+          }
+        },
+        "methods": [
+          "GET"
+        ],
+        "name": "Nodes",
+        "url": "nodes"
+      }
+    ]
+  }
+}
