@@ -33,7 +33,7 @@ Please use **Python version 3.9**
 
 3. [hasura_metadata.json](./hasura_metadata.json) - Contains metadata for [Hasura](https://hasura.io/), it creates the required relationships to query Edges in Graphql, For more details refer  
 
-4. [test.graphql](./test.graphql) - Contains the GraphQL queries to obtain Nodes and Edges from the Database
+4. [query.graphql](./query.graphql) - Contains the GraphQL queries to obtain Nodes and Edges from the Database
 
 5. [ETL Notebook](./northwind_neo4j_graphql_etl.ipynb) - Contains Scripts for Extracting Nodes and Edges using GraphQL queries
 
